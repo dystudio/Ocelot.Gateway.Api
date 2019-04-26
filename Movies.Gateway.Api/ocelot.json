@@ -1,0 +1,51 @@
+{
+  "ReRoutes": [
+    {
+      "DownstreamPathTemplate": "/api/cinemaworld/movies",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "webjetapitest.azurewebsites.net",
+          "Port": "80"
+        }
+      ],
+      "UpstreamHeaderTransform": {
+        "x-access-token": "sjd1HfkjU83ksdsm3802k"
+      },
+      "UpstreamPathTemplate": "/api/cinemaworld/movies",
+      "UpstreamHttpMethod": [ "Get" ],
+      //"FileCacheOptions": { "TtlSeconds": 15 },
+      "Key": "cinemaworld"
+    },
+    {
+      "DownstreamPathTemplate": "/api/filmworld/movies",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "webjetapitest.azurewebsites.net",
+          "Port": "80"
+        }
+      ],
+      "UpstreamHeaderTransform": {
+        "x-access-token": "sjd1HfkjU83ksdsm3802k"
+      },
+      "UpstreamPathTemplate": "/api/filmworld/movies",
+      "UpstreamHttpMethod": [ "Get" ],
+      //"FileCacheOptions": { "TtlSeconds": 15 },
+      "Key": "filmworld"
+    }
+  ],
+  "Aggregates": [
+    {
+      "ReRouteKeys": [
+        "cinemaworld",
+        "filmworld"
+      ],
+      "UpstreamPathTemplate": "/api/cheapmovies",
+      "UpstreamHttpMethod": [ "Get" ],
+      "Aggregator": "MovieAggregator"
+    }
+  ],
+  "GlobalConfiguration": {   
+  }
+}
