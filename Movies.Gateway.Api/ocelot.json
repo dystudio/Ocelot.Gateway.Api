@@ -14,8 +14,8 @@
       },
       "UpstreamPathTemplate": "/api/cinemaworld/movies",
       "UpstreamHttpMethod": [ "Get" ],
-      //"FileCacheOptions": { "TtlSeconds": 15 },
-      "Key": "cinemaworld"
+      "FileCacheOptions": { "TtlSeconds": 10 },
+      "Key": "CinemaWorld"
     },
     {
       "DownstreamPathTemplate": "/api/filmworld/movies",
@@ -31,8 +31,8 @@
       },
       "UpstreamPathTemplate": "/api/filmworld/movies",
       "UpstreamHttpMethod": [ "Get" ],
-      //"FileCacheOptions": { "TtlSeconds": 15 },
-      "Key": "filmworld"
+      "FileCacheOptions": { "TtlSeconds": 10 },
+      "Key": "FilmWorld"
     },
 
     {
@@ -49,7 +49,8 @@
       },
       "UpstreamPathTemplate": "/api/filmworld/movie/{id}",
       "UpstreamHttpMethod": [ "Get" ],
-      "Key": "filmworldById"
+      "FileCacheOptions": { "TtlSeconds": 10 },
+      "Key": "FilmWorldMovie"
     },
     {
       "DownstreamPathTemplate": "/api/cinemaworld/movie/cw{id}",
@@ -65,27 +66,34 @@
       },
       "UpstreamPathTemplate": "/api/cinemaworld/movie/{id}",
       "UpstreamHttpMethod": [ "Get" ],
-      "Key": "cinemaworldById"
+      "FileCacheOptions": { "TtlSeconds": 10 },
+      "Key": "CinemaWorldMovie"
     }
   ],
   "Aggregates": [
     {
       "ReRouteKeys": [
-        "cinemaworld",
-        "filmworld"
+        "CinemaWorld",
+        "FilmWorld"
       ],
       "UpstreamPathTemplate": "/api/movies",
       "UpstreamHttpMethod": [ "Get" ]
     },
     {
       "ReRouteKeys": [
-        "cinemaworldById",
-        "filmworldById"
+        "CinemaWorldMovie",
+        "FilmWorldMovie"
       ],
       "UpstreamPathTemplate": "/api/movie/{id}",
       "UpstreamHttpMethod": [ "Get" ]
     }
   ],
-  "GlobalConfiguration": {   
+  "QoSOptions": {
+    "ExceptionsAllowedBeforeBreaking": 3,
+    "DurationOfBreak": 5,
+    "TimeoutValue": 5000
+  },
+  "GlobalConfiguration": {
+
   }
 }
