@@ -33,6 +33,39 @@
       "UpstreamHttpMethod": [ "Get" ],
       //"FileCacheOptions": { "TtlSeconds": 15 },
       "Key": "filmworld"
+    },
+
+    {
+      "DownstreamPathTemplate": "/api/filmworld/movie/fw{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "webjetapitest.azurewebsites.net",
+          "Port": "80"
+        }
+      ],
+      "UpstreamHeaderTransform": {
+        "x-access-token": "sjd1HfkjU83ksdsm3802k"
+      },
+      "UpstreamPathTemplate": "/api/filmworld/movie/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "Key": "filmworldById"
+    },
+    {
+      "DownstreamPathTemplate": "/api/cinemaworld/movie/cw{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "webjetapitest.azurewebsites.net",
+          "Port": "80"
+        }
+      ],
+      "UpstreamHeaderTransform": {
+        "x-access-token": "sjd1HfkjU83ksdsm3802k"
+      },
+      "UpstreamPathTemplate": "/api/cinemaworld/movie/{id}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "Key": "cinemaworldById"
     }
   ],
   "Aggregates": [
@@ -42,7 +75,15 @@
         "filmworld"
       ],
       "UpstreamPathTemplate": "/api/movies",
-      "UpstreamHttpMethod": [ "Get" ]      
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
+      "ReRouteKeys": [
+        "cinemaworldById",
+        "filmworldById"
+      ],
+      "UpstreamPathTemplate": "/api/movie/{id}",
+      "UpstreamHttpMethod": [ "Get" ]
     }
   ],
   "GlobalConfiguration": {   
