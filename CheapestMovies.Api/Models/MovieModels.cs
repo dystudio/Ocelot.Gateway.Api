@@ -4,17 +4,25 @@ namespace CheapestMovies.Api.Models
 {
     public class Movie
     {
-        public string UniversalID { get { return ID.Substring(2); } }
+        public string UniversalID
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(ID)) return ID.Substring(2);
+                return "0";
+            }
+        }
         public string Title { get; set; }
         public string Year { get; set; }
         public string ID { get; set; }
         public string Type { get; set; }
         public string Poster { get; set; }
+        public decimal Price { get; set; }
     }
 
     public class MoviesList
     {
-        public IEnumerable<Movie> Movies { get; set; }
+        public List<Movie> Movies { get; set; }
     }
     public class MovieDetails : Movie
     {
@@ -31,6 +39,5 @@ namespace CheapestMovies.Api.Models
         public string Metascore { get; set; }
         public string Rating { get; set; }
         public string Votes { get; set; }
-        public decimal Price { get; set; }
     }
 }

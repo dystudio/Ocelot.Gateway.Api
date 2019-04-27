@@ -34,14 +34,14 @@ namespace CheapestMovies.Api.Controllers
             return null;
         }
         [HttpGet("{id}")]
-        public ActionResult GetMovieDetailById(string id)
+        public ActionResult GetCheapestMovieDetailById(string id)
         {
             //Always good to validate the input parameter in public methods
             if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
 
             try
             {
-                var response = _moviesService.GetMovieDetailById(_settings.MovieDetailsUrl, id);
+                var response = _moviesService.GetCheapestMovieDetailById(_settings.MovieDetailsUrl, id);
                 return Ok(response.Result);
             }
             catch (Exception)
