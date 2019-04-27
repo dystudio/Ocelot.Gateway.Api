@@ -26,8 +26,7 @@ namespace TicketGateway.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddOcelot(Configuration)
-                .AddSingletonDefinedAggregator<MovieAggregator>();
+            services.AddOcelot(Configuration);               
         }
 
         public void Configure(IApplicationBuilder app)

@@ -41,9 +41,8 @@
         "cinemaworld",
         "filmworld"
       ],
-      "UpstreamPathTemplate": "/api/cheapmovies",
-      "UpstreamHttpMethod": [ "Get" ],
-      "Aggregator": "MovieAggregator"
+      "UpstreamPathTemplate": "/api/movies",
+      "UpstreamHttpMethod": [ "Get" ]      
     }
   ],
   "GlobalConfiguration": {   
