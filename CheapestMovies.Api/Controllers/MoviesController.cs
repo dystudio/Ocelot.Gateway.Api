@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Net.Http;
+﻿using CheapestMovies.Api.Models;
+using CheapestMovies.Api.Services;
+using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace CheapestMovies.Api.Controllers
 {
@@ -9,67 +9,47 @@ namespace CheapestMovies.Api.Controllers
     [ApiController]
     public class MoviesController : ControllerBase
     {
-        static HttpClient client = new HttpClient();
-        // GET api/values
+        private readonly IMoviesService _moviesService;
+        private readonly IConfigService _configService;
+        private UrlSettings _settings => _configService.GetSection<UrlSettings>(nameof(UrlSettings));
+
+        public MoviesController(IMoviesService movieService, IConfigService configSerivce)
+        {
+            _moviesService = movieService ?? throw new ArgumentNullException(nameof(movieService));
+            _configService = configSerivce ?? throw new ArgumentNullException(nameof(configSerivce));
+        }
+
         [HttpGet]
         public ActionResult GetCheapestMovies()
         {
-
-            string url = "http://localhost:2000/api/movies";
-            //string url = "http://localhost:2000/api/filmworld/movie/fw0076759";
-            //string url = "http://localhost:2000/api/filmworld/movies";
-
-            var response = client.GetAsync(url)
-                     .ContinueWith(async x =>
-                     {
-                         var result = x.Result;
-
-                         result.EnsureSuccessStatusCode();
-
-                         var res = await result.Content.ReadAsStringAsync();
-
-                         var movies = JsonConvert.DeserializeObject<Dictionary<string, MoviesCollection>>(res);
-                         return movies;
-                     }).Result;
-
-            return Ok(response.Result);
+            try
+            {
+                var response = _moviesService.GetCheapestMovies(_settings.MoviesListUrl);
+                return Ok(response.Result);
+            }
+            catch (Exception)
+            {
+                // Yell    Log    Catch  Throw     
+            }
+            return null;
         }
         [HttpGet("{id}")]
         public ActionResult GetMovieDetailById(string id)
         {
+            //Always good to validate the input parameter in public methods
+            if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
 
-            string url = $"http://localhost:2000/api/movie/{id}";
-
-            var response = client.GetAsync(url)
-                     .ContinueWith(async x =>
-                     {
-                         var result = x.Result;
-
-                         result.EnsureSuccessStatusCode();
-
-                         var res = await result.Content.ReadAsStringAsync();
-
-                         var movies = JsonConvert.DeserializeObject<Dictionary<string, Movie>>(res);
-                         return movies;
-                     }).Result;
-
-            return Ok(response.Result);
+            try
+            {
+                var response = _moviesService.GetMovieDetailById(_settings.MovieDetailsUrl, id);
+                return Ok(response.Result);
+            }
+            catch (Exception)
+            {
+                // Yell    Log    Catch  Throw
+            }
+            return null;
         }
-
-
-
-    }
-    public class Movie
-    {
-        public string Title { get; set; }
-        public string Year { get; set; }
-        public string ID { get; set; }
-        public string Type { get; set; }
-        public string Poster { get; set; }
     }
 
-    public class MoviesCollection
-    {
-        public IEnumerable<Movie> Movies { get; set; }
-    }
 }
