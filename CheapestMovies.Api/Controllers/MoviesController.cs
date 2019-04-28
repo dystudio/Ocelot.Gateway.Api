@@ -25,13 +25,14 @@ namespace CheapestMovies.Api.Controllers
             try
             {
                 var response = _moviesService.GetCheapestMovies(_settings.MoviesListUrl);
-                return Ok(response.Result);
+
+                if (response.Result != null) return Ok(response.Result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Yell    Log    Catch  Throw     
+
             }
-            return null;
+            return NotFound();
         }
         [HttpGet("{id}")]
         public ActionResult GetCheapestMovieDetailById(string id)
@@ -42,13 +43,13 @@ namespace CheapestMovies.Api.Controllers
             try
             {
                 var response = _moviesService.GetCheapestMovieDetailById(_settings.MovieDetailsUrl, id);
-                return Ok(response.Result);
+                if (response.Result != null) return Ok(response.Result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // Yell    Log    Catch  Throw
             }
-            return null;
+            return NotFound();
         }
     }
 

@@ -9,7 +9,7 @@ namespace CheapestMovies.Api.Services
 {
     public interface IMoviesService
     {
-        Task<Dictionary<string, MoviesList>> GetCheapestMovies(string url);
+        Task<MoviesList> GetCheapestMovies(string url);
         Task<Movie> GetCheapestMovieDetailById(string url, string id);
     }
     public class MoviesService : IMoviesService
@@ -20,43 +20,54 @@ namespace CheapestMovies.Api.Services
             _httpResponse = httpResponse ?? throw new ArgumentNullException(nameof(httpResponse));
         }
 
-        public async Task<Dictionary<string, MoviesList>> GetCheapestMovies(string url)
+        public async Task<MoviesList> GetCheapestMovies(string url)
         {
+            //Always good to validate the input parameter in public methods
+            if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url));
+
             var allmovies = await _httpResponse.GetResponse<Dictionary<string, MoviesList>>($"{url}");
+
+            //return allmovies;
+
             MoviesList cheapestmovieList = new MoviesList() { Movies = new List<Movie>() };
 
-            ////Create union of all IDs and call GetMovieDetailById which will return the lowest price
-            ////call parallel
-            ////NOT GOOD. change the logic as the first collection could be null
-            //foreach (var movies in allmovies.Values)
-            //{
-            //    foreach (var movie in movies.Movies)
-            //    {
-            //        //Fix configSettings via DI
-            //        var cheapestMovie = await GetCheapestMovieDetailById("http://localhost:2000/api/movie", movie.UniversalID);
-            //        cheapestmovieList.Movies.Add(cheapestMovie);
-            //    }
-            //}
+            //Create union of all IDs and call GetMovieDetailById which will return the lowest price
+            //call parallel
+            var aggregatedMovie = allmovies.Values.ToList()
+                                    .SelectMany(x => x.Movies);
 
+            var groupedMovie = aggregatedMovie.GroupBy(o => o.UniversalID);
 
-            return allmovies;
+            foreach (var movie in groupedMovie)
+            {
+                //Compare prices only when other movie databases have it
+                if (movie.Count() > 1)
+                {
+                    //Fix configSettings via DI
+                    var cheapestMovie = GetCheapestMovieDetailById("http://localhost:2000/api/movie", movie.Key);
+                    cheapestmovieList.Movies.Add(cheapestMovie.Result);
+                }
+            }
+
+            return cheapestmovieList;
         }
 
         public async Task<Movie> GetCheapestMovieDetailById(string url, string id)
         {
             //Always good to validate the input parameter in public methods
-            if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
+            if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
 
 
             var movieDetailFromAll = await _httpResponse.GetResponse<Dictionary<string, MovieDetails>>($"{url}/{id}");
 
             //Init first movie
-            MovieDetails movie = movieDetailFromAll.First().Value;
-
-            //Skip first as it's already there in "movie" variable
-            foreach (var item in movieDetailFromAll.Skip(1))
+            MovieDetails movie = new MovieDetails { Price = decimal.MaxValue };
+            if (movieDetailFromAll != null && movieDetailFromAll.Count > 0)
             {
-                movie = movie.Price < item.Value.Price ? movie : item.Value;
+                foreach (var item in movieDetailFromAll)
+                {
+                    movie = movie.Price < item.Value.Price ? movie : item.Value;
+                }
             }
             return movie;
         }

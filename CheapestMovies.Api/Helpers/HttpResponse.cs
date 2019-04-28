@@ -11,7 +11,7 @@ namespace CheapestMovies.Api.Helpers
     }
     public class HttpResponse : IHttpResponse
     {
-        HttpClient _client;
+        private HttpClient _client;
 
         public async Task<TResponse> GetResponse<TResponse>(string url) where TResponse : class
         {
@@ -33,7 +33,7 @@ namespace CheapestMovies.Api.Helpers
                                                   return JsonConvert.DeserializeObject<TResponse>(response);
                                               }).Result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // Yell    Log    Catch  Throw     
             }
