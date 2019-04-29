@@ -3,22 +3,21 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace CheapestMovies.Api.Helpers
+namespace CheapestMovies.Api.Services
 {
-    public interface IHttpResponse
+    public interface IHttpService
     {
         Task<TResponse> GetResponse<TResponse>(string url) where TResponse : class;
     }
-    public class HttpResponse : IHttpResponse
+    public class HttpService : IHttpService
     {
-        private HttpClient _client;
+        private static HttpClient _client = new HttpClient();
 
         public async Task<TResponse> GetResponse<TResponse>(string url) where TResponse : class
         {
             //Always good to validate the input parameter in public methods
             if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url));
 
-            _client = new HttpClient();
             try
             {
                 return await _client.GetAsync(url)

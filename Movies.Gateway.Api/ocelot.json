@@ -89,7 +89,7 @@
     }
   ],
   "QoSOptions": {
-    "ExceptionsAllowedBeforeBreaking": 3,
+    "ExceptionsAllowedBeforeBreaking": 10,
     "DurationOfBreak": 5,
     "TimeoutValue": 5000
   },

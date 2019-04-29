@@ -1,4 +1,4 @@
-﻿using CheapestMovies.Api.Helpers;
+﻿using CheapestMovies.Api.Managers;
 using CheapestMovies.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,9 +20,12 @@ namespace CheapestMovies.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IMoviesService, MoviesService>()
-                    .AddSingleton<IConfigService, ConfigService>()
-                    .AddScoped<IHttpResponse, HttpResponse>();
+            services.AddSingleton<IConfigService, ConfigService>()
+                    .AddTransient<IHttpService, HttpService>()
+                    .AddScoped<IAggregatedMovieService, AggregatedMovieService>()
+                    .AddScoped<IMovieManager, MovieManager>();
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
