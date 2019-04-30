@@ -44,36 +44,23 @@ namespace CheapestMovies.Api.Managers
                                     .SelectMany(x => x.Movies).GroupBy(o => o.UniversalID);
 
 
-            //ConcurrentBag<Movie> currentBag = new ConcurrentBag<Movie>();
+            ConcurrentBag<Movie> currentBag = new ConcurrentBag<Movie>();
 
-            //Parallel.ForEach(groupedMovie, movie =>
-            //{
-            //    //Compare prices only when other movie databases have it
-            //    if (movie.Count() > 1)
-            //    {
-            //        var cheapestMovie = CompareAndFindCheapest(movie.Key).Result;
-            //        if (cheapestMovie != null) currentBag.Add(cheapestMovie);
-            //    }
-            //});
-
-            var currentBag = new List<Movie>();
-
-            foreach (var movie in groupedMovie)
+            Parallel.ForEach(groupedMovie, movie =>
             {
                 Dictionary<string, MovieDetail> movieDetailFromAll;
-                try
-                {
-                    movieDetailFromAll = await GetAggregatedMovieDetail(movie.Key);
+                movieDetailFromAll = GetAggregatedMovieDetail(movie.Key).Result;
 
-                }
-                catch (Exception ex)
-                {
+                var cheapestMovie = CompareAndFindCheapest(movieDetailFromAll);
+                if (cheapestMovie != null) currentBag.Add(cheapestMovie.Result);
+            });
 
-                    throw;
-                }
-                var cheapestMovie = await CompareAndFindCheapest(movieDetailFromAll);
-                if (cheapestMovie != null) currentBag.Add(cheapestMovie);
-            }
+            //var currentBag = new List<Movie>();
+            //foreach (var movie in groupedMovie)
+            //{                
+            //    var cheapestMovie = await GetCheapestMovie(movie.Key);
+            //    if (cheapestMovie != null) currentBag.Add(cheapestMovie);
+            //}
 
 
             var cheapestMovieList = new MoviesCollection() { Movies = currentBag.ToList() };

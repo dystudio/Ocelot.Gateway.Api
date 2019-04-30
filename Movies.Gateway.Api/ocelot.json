@@ -14,7 +14,10 @@
       },
       "UpstreamPathTemplate": "/api/cinemaworld/movies",
       "UpstreamHttpMethod": [ "Get" ],
-      "FileCacheOptions": { "TtlSeconds": 15 },
+      "FileCacheOptions": {
+        "TtlSeconds": 15,
+        "Region": "AU"
+      },
       "Key": "CinemaWorld"
     },
     {
@@ -30,8 +33,11 @@
         "x-access-token": "sjd1HfkjU83ksdsm3802k"
       },
       "UpstreamPathTemplate": "/api/filmworld/movies",
-      "UpstreamHttpMethod": [ "Get" ],
-      "FileCacheOptions": { "TtlSeconds": 15 },
+      "FileCacheOptions": {
+        "TtlSeconds": 15,
+        "Region": "AU"
+      },
+
       "Key": "FilmWorld"
     },
 
@@ -49,7 +55,10 @@
       },
       "UpstreamPathTemplate": "/api/filmworld/movie/{id}",
       "UpstreamHttpMethod": [ "Get" ],
-      "FileCacheOptions": { "TtlSeconds": 15 },
+      "FileCacheOptions": {
+        "TtlSeconds": 15,
+        "Region": "AU"
+      },
       "Key": "FilmWorldMovie"
     },
     {
@@ -66,7 +75,10 @@
       },
       "UpstreamPathTemplate": "/api/cinemaworld/movie/{id}",
       "UpstreamHttpMethod": [ "Get" ],
-      "FileCacheOptions": { "TtlSeconds": 15 },
+      "FileCacheOptions": {
+        "TtlSeconds": 15,
+        "Region": "AU"
+      },
       "Key": "CinemaWorldMovie"
     }
   ],
@@ -88,11 +100,11 @@
       "UpstreamHttpMethod": [ "Get" ]
     }
   ],
-  "QoSOptions": {
-    "ExceptionsAllowedBeforeBreaking": 5,
-    "DurationOfBreak": 10,
-    "TimeoutValue": 1000
-  },
+  //"QoSOptions": {
+  //  "ExceptionsAllowedBeforeBreaking": 5,
+  //  "DurationOfBreak": 10,
+  //  "TimeoutValue": 1000
+  //},
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:2000"
   }

@@ -22,8 +22,8 @@ namespace CheapestMovies.Api
         {
             services.AddSingleton<IConfigService, ConfigService>()
                     .AddTransient<IHttpService, HttpService>()
-                    .AddScoped<IAggregatedMovieService, AggregatedMovieService>()
-                    .AddScoped<IMovieManager, MovieManager>();
+                    .AddTransient<IAggregatedMovieService, AggregatedMovieService>()
+                    .AddTransient<IMovieManager, MovieManager>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
