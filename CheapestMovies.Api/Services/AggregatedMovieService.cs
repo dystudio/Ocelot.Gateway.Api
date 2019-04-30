@@ -8,8 +8,8 @@ namespace CheapestMovies.Api.Services
 {
     public interface IAggregatedMovieService
     {      
-        Task<Dictionary<string, MoviesList>> GetAggregatedMovies(string url);
-        Task<Dictionary<string, MovieDetails>> GetAggregatedMovieDetails(string url, string universalId);
+        Task<Dictionary<string, MoviesCollection>> GetAggregatedMoviesFromAllWorlds(string url);
+        Task<Dictionary<string, MovieDetail>> GetAggregatedMovieDetailFromAllWorlds(string url, string universalId);
     }
     public class AggregatedMovieService : IAggregatedMovieService
     {
@@ -19,22 +19,22 @@ namespace CheapestMovies.Api.Services
             _httpService = httpService ?? throw new ArgumentNullException(nameof(httpService));
         }
      
-        public async Task<Dictionary<string, MoviesList>> GetAggregatedMovies(string url)
+        public async Task<Dictionary<string, MoviesCollection>> GetAggregatedMoviesFromAllWorlds(string url)
         {
             //Always good to validate the input parameter in public methods
             if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url));
 
-            var allmovies = await _httpService.GetResponse<Dictionary<string, MoviesList>>($"{url}");
+            var moviesFromAll = await _httpService.GetHttpResponse<Dictionary<string, MoviesCollection>>($"{url}");
 
-            return allmovies;
+            return moviesFromAll;
         }
 
-        public async Task<Dictionary<string, MovieDetails>> GetAggregatedMovieDetails(string url, string universalId)
+        public async Task<Dictionary<string, MovieDetail>> GetAggregatedMovieDetailFromAllWorlds(string url, string universalId)
         {
             //Always good to validate the input parameter in public methods
             if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(universalId)) throw new ArgumentNullException(nameof(universalId));
 
-            var movieDetailFromAll = await _httpService.GetResponse<Dictionary<string, MovieDetails>>($"{url}/{universalId}");
+            var movieDetailFromAll = await _httpService.GetHttpResponse<Dictionary<string, MovieDetail>>($"{url}/{universalId}");
 
             return movieDetailFromAll;
         }

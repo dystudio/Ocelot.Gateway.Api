@@ -14,7 +14,7 @@
       },
       "UpstreamPathTemplate": "/api/cinemaworld/movies",
       "UpstreamHttpMethod": [ "Get" ],
-      "FileCacheOptions": { "TtlSeconds": 10 },
+      "FileCacheOptions": { "TtlSeconds": 15 },
       "Key": "CinemaWorld"
     },
     {
@@ -31,7 +31,7 @@
       },
       "UpstreamPathTemplate": "/api/filmworld/movies",
       "UpstreamHttpMethod": [ "Get" ],
-      "FileCacheOptions": { "TtlSeconds": 10 },
+      "FileCacheOptions": { "TtlSeconds": 15 },
       "Key": "FilmWorld"
     },
 
@@ -49,7 +49,7 @@
       },
       "UpstreamPathTemplate": "/api/filmworld/movie/{id}",
       "UpstreamHttpMethod": [ "Get" ],
-      "FileCacheOptions": { "TtlSeconds": 10 },
+      "FileCacheOptions": { "TtlSeconds": 15 },
       "Key": "FilmWorldMovie"
     },
     {
@@ -66,7 +66,7 @@
       },
       "UpstreamPathTemplate": "/api/cinemaworld/movie/{id}",
       "UpstreamHttpMethod": [ "Get" ],
-      "FileCacheOptions": { "TtlSeconds": 10 },
+      "FileCacheOptions": { "TtlSeconds": 15 },
       "Key": "CinemaWorldMovie"
     }
   ],
@@ -89,11 +89,11 @@
     }
   ],
   "QoSOptions": {
-    "ExceptionsAllowedBeforeBreaking": 10,
-    "DurationOfBreak": 5,
-    "TimeoutValue": 5000
+    //"ExceptionsAllowedBeforeBreaking": 5,
+    //"DurationOfBreak": 10,
+    "TimeoutValue": 2000
   },
   "GlobalConfiguration": {
-
+    "BaseUrl": "http://localhost:2000"
   }
 }

@@ -7,13 +7,13 @@ namespace CheapestMovies.Api.Services
 {
     public interface IHttpService
     {
-        Task<TResponse> GetResponse<TResponse>(string url) where TResponse : class;
+        Task<TResponse> GetHttpResponse<TResponse>(string url) where TResponse : class;
     }
     public class HttpService : IHttpService
     {
         private static HttpClient _client = new HttpClient();
 
-        public async Task<TResponse> GetResponse<TResponse>(string url) where TResponse : class
+        public async Task<TResponse> GetHttpResponse<TResponse>(string url) where TResponse : class
         {
             //Always good to validate the input parameter in public methods
             if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url));

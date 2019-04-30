@@ -19,12 +19,11 @@ namespace CheapestMovies.Api.Models
         public string Poster { get; set; }
         public decimal Price { get; set; }
     }
-
-    public class MoviesList
+    public class MoviesCollection
     {
         public List<Movie> Movies { get; set; }
     }
-    public class MovieDetails : Movie
+    public class MovieDetail : Movie
     {
         public string Rated { get; set; }
         public string Released { get; set; }

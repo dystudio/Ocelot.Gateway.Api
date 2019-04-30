@@ -1,6 +1,7 @@
 ﻿using CheapestMovies.Api.Models;
 using CheapestMovies.Api.Services;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +10,9 @@ namespace CheapestMovies.Api.Managers
 {
     public interface IMovieManager
     {
-        Task<MoviesList> GetCheapestMovies();
+        Task<Dictionary<string, MoviesCollection>> GetAggregatedMoviesFromAllWorlds();
+        Task<Dictionary<string, MovieDetail>> GetAggregatedMovieDetailFromAllWorlds(string universalId);
+        Task<MoviesCollection> GetCheapestMoviesFromAllWorlds();
     }
     public class MovieManager : IMovieManager
     {
@@ -23,17 +26,35 @@ namespace CheapestMovies.Api.Managers
             _configService = configService ?? throw new ArgumentNullException(nameof(configService));
         }
 
-        public async Task<MoviesList> GetCheapestMovies()
+        public async Task<Dictionary<string, MoviesCollection>> GetAggregatedMoviesFromAllWorlds()
         {
-            var allMovies = await _movieService.GetAggregatedMovies(_ocelotSettings.MoviesEndpoint);
+            return await _movieService.GetAggregatedMoviesFromAllWorlds(_ocelotSettings.MoviesEndpoint);
+        }
 
+        public async Task<Dictionary<string, MovieDetail>> GetAggregatedMovieDetailFromAllWorlds(string universalId)
+        {
+            return await _movieService.GetAggregatedMovieDetailFromAllWorlds(_ocelotSettings.MovieDetailsEndPoint, universalId);
+        }
+        public async Task<MoviesCollection> GetCheapestMoviesFromAllWorlds()
+        {
+            var allMovies = await GetAggregatedMoviesFromAllWorlds();
 
-            //Create union of all IDs and groupby its UniversalID accross different movie databases
+            //Create union of all IDs and groupby its UniversalID accross different movie databases (worlds)
             var groupedMovie = allMovies.Values.ToList()
                                     .SelectMany(x => x.Movies).GroupBy(o => o.UniversalID);
 
-            //Init the output as empty
-            MoviesList cheapestMovieList = new MoviesList() { Movies = new List<Movie>() };
+            ConcurrentBag<Movie> currentBag = new ConcurrentBag<Movie>();
+
+
+            //Parallel.ForEach(groupedMovie, movie =>
+            //{
+            //    //Compare prices only when other movie databases have it
+            //    if (movie.Count() > 1)
+            //    {
+            //        var cheapestMovie = CompareAndFindCheapest(movie.Key).Result;
+            //        if (cheapestMovie != null) currentBag.Add(cheapestMovie);
+            //    }
+            //});
 
             foreach (var movie in groupedMovie)
             {
@@ -41,25 +62,35 @@ namespace CheapestMovies.Api.Managers
                 if (movie.Count() > 1)
                 {
                     var cheapestMovie = await CompareAndFindCheapest(movie.Key);
-                    cheapestMovieList.Movies.Add(cheapestMovie);
+                    if (cheapestMovie != null) currentBag.Add(cheapestMovie);
                 }
             }
 
+
+            var cheapestMovieList = new MoviesCollection() { Movies = currentBag.ToList() };
             return cheapestMovieList;
         }
         private async Task<Movie> CompareAndFindCheapest(string universalId)
         {
-            var movieDetailFromAll = await _movieService.GetAggregatedMovieDetails(_ocelotSettings.MovieDetailsEndPoint, universalId);
+            Dictionary<string, MovieDetail> movieDetailFromAll;
+            try
+            {
+                movieDetailFromAll = await GetAggregatedMovieDetailFromAllWorlds(universalId);
+                if (movieDetailFromAll == null || movieDetailFromAll.Count == 0) { return null; }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
 
             //Init first movie
-            MovieDetails movie = new MovieDetails { Price = decimal.MaxValue };
-            if (movieDetailFromAll != null && movieDetailFromAll.Count > 0)
+            MovieDetail movie = new MovieDetail { Price = decimal.MaxValue };
+            foreach (var item in movieDetailFromAll)
             {
-                foreach (var item in movieDetailFromAll)
-                {
-                    movie = movie.Price < item.Value.Price ? movie : item.Value;
-                }
+                movie = movie.Price < item.Value.Price ? movie : item.Value;
             }
+
             return movie;
         }
     }

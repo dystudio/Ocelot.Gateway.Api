@@ -1,8 +1,7 @@
 ﻿using CheapestMovies.Api.Managers;
-using CheapestMovies.Api.Models;
-using CheapestMovies.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace CheapestMovies.Api.Controllers
 {
@@ -12,45 +11,60 @@ namespace CheapestMovies.Api.Controllers
     {
         private readonly IMovieManager _movieManager;
 
-
         public MoviesController(IMovieManager movieManager)
         {
             _movieManager = movieManager ?? throw new ArgumentNullException(nameof(movieManager));
         }
 
         [HttpGet]
-        public ActionResult GetCheapestMovies()
+        public async Task<ActionResult> GetAggregatedMoviesFromAllWorlds()
         {
             try
             {
-                var response = _movieManager.GetCheapestMovies();
+                var response = await _movieManager.GetAggregatedMoviesFromAllWorlds();
 
-                if (response.Result != null) return Ok(response.Result);
+                if (response != null) return Ok(response);
             }
             catch (Exception ex)
             {
-
+                // Yell    Log    Catch  Throw
             }
             return NotFound();
         }
 
-        //[HttpGet("{id}")]
-        //public ActionResult GetCheapestMovieDetailById(string id)
-        //{
-        //    //Always good to validate the input parameter in public methods
-        //    if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
+        [HttpGet("Cheapest")]
+        public async Task<ActionResult> GetCheapestMovies()
+        {
+            try
+            {
+                var response = await _movieManager.GetCheapestMoviesFromAllWorlds();
 
-        //    try
-        //    {
-        //        var response = _moviesService.GetCheapestMovieDetailById(_settings.MovieDetailsEndPoint, id);
-        //        if (response.Result != null) return Ok(response.Result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Yell    Log    Catch  Throw
-        //    }
-        //    return NotFound();
-        //}
+                if (response != null) return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                // Yell    Log    Catch  Throw
+            }
+            return NotFound();
+        }
+
+        [HttpGet("{universalId}")]
+        public async Task<ActionResult> GetAggregatedMovieDetailFromAllWorlds(string universalId)
+        {
+            //Always good to validate the input parameter in public methods
+            if (string.IsNullOrEmpty(universalId)) throw new ArgumentNullException(nameof(universalId));
+
+            try
+            {
+                var response = await _movieManager.GetAggregatedMovieDetailFromAllWorlds(universalId);
+                if (response != null) return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                // Yell    Log    Catch  Throw
+            }
+            return NotFound();
+        }
     }
 
 }
