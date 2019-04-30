@@ -20,7 +20,7 @@ namespace CheapestMovies.Api.Services
 
             try
             {
-                return await _client.GetAsync(url)
+                var res = await _client.GetAsync(url)
                                               .ContinueWith(async x =>
                                               {
                                                   var result = x.Result;
@@ -29,8 +29,11 @@ namespace CheapestMovies.Api.Services
 
                                                   var response = await result.Content.ReadAsStringAsync();
 
+                                                  response = response.Replace(":}", ":\"\"}").Replace(":,", ":\"\",");
+
                                                   return JsonConvert.DeserializeObject<TResponse>(response);
-                                              }).Result;
+                                              });
+                return res.Result;
             }
             catch (Exception ex)
             {

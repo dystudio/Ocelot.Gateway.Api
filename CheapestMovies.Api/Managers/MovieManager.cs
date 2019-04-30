@@ -10,9 +10,10 @@ namespace CheapestMovies.Api.Managers
 {
     public interface IMovieManager
     {
-        Task<Dictionary<string, MoviesCollection>> GetAggregatedMoviesFromAllWorlds();
-        Task<Dictionary<string, MovieDetail>> GetAggregatedMovieDetailFromAllWorlds(string universalId);
-        Task<MoviesCollection> GetCheapestMoviesFromAllWorlds();
+        Task<Dictionary<string, MoviesCollection>> GetAggregatedMovies();
+        Task<Dictionary<string, MovieDetail>> GetAggregatedMovieDetail(string universalId);
+        Task<MoviesCollection> GetCheapestMovies();
+        Task<Movie> GetCheapestMovie(string universalId);
     }
     public class MovieManager : IMovieManager
     {
@@ -26,25 +27,24 @@ namespace CheapestMovies.Api.Managers
             _configService = configService ?? throw new ArgumentNullException(nameof(configService));
         }
 
-        public async Task<Dictionary<string, MoviesCollection>> GetAggregatedMoviesFromAllWorlds()
+        public async Task<Dictionary<string, MoviesCollection>> GetAggregatedMovies()
         {
             return await _movieService.GetAggregatedMoviesFromAllWorlds(_ocelotSettings.MoviesEndpoint);
         }
-
-        public async Task<Dictionary<string, MovieDetail>> GetAggregatedMovieDetailFromAllWorlds(string universalId)
+        public async Task<Dictionary<string, MovieDetail>> GetAggregatedMovieDetail(string universalId)
         {
             return await _movieService.GetAggregatedMovieDetailFromAllWorlds(_ocelotSettings.MovieDetailsEndPoint, universalId);
         }
-        public async Task<MoviesCollection> GetCheapestMoviesFromAllWorlds()
+        public async Task<MoviesCollection> GetCheapestMovies()
         {
-            var allMovies = await GetAggregatedMoviesFromAllWorlds();
+            var allMovies = await GetAggregatedMovies();
 
             //Create union of all IDs and groupby its UniversalID accross different movie databases (worlds)
             var groupedMovie = allMovies.Values.ToList()
                                     .SelectMany(x => x.Movies).GroupBy(o => o.UniversalID);
 
-            ConcurrentBag<Movie> currentBag = new ConcurrentBag<Movie>();
 
+            //ConcurrentBag<Movie> currentBag = new ConcurrentBag<Movie>();
 
             //Parallel.ForEach(groupedMovie, movie =>
             //{
@@ -56,39 +56,43 @@ namespace CheapestMovies.Api.Managers
             //    }
             //});
 
+            var currentBag = new List<Movie>();
+
             foreach (var movie in groupedMovie)
             {
-                //Compare prices only when other movie databases have it
-                if (movie.Count() > 1)
+                Dictionary<string, MovieDetail> movieDetailFromAll;
+                try
                 {
-                    var cheapestMovie = await CompareAndFindCheapest(movie.Key);
-                    if (cheapestMovie != null) currentBag.Add(cheapestMovie);
+                    movieDetailFromAll = await GetAggregatedMovieDetail(movie.Key);
+
                 }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+                var cheapestMovie = await CompareAndFindCheapest(movieDetailFromAll);
+                if (cheapestMovie != null) currentBag.Add(cheapestMovie);
             }
 
 
             var cheapestMovieList = new MoviesCollection() { Movies = currentBag.ToList() };
             return cheapestMovieList;
         }
-        private async Task<Movie> CompareAndFindCheapest(string universalId)
+        public async Task<Movie> GetCheapestMovie(string universalId)
         {
-            Dictionary<string, MovieDetail> movieDetailFromAll;
-            try
-            {
-                movieDetailFromAll = await GetAggregatedMovieDetailFromAllWorlds(universalId);
-                if (movieDetailFromAll == null || movieDetailFromAll.Count == 0) { return null; }
-            }
-            catch (Exception ex)
-            {
+            var movieDetailFromAll = await GetAggregatedMovieDetail(universalId);
 
-                throw;
-            }
+            return await CompareAndFindCheapest(movieDetailFromAll);
+        }
+        private async Task<Movie> CompareAndFindCheapest(Dictionary<string, MovieDetail> movieDetailFromAll)
+        {
+            if (movieDetailFromAll == null) { return null; }
 
-            //Init first movie
             MovieDetail movie = new MovieDetail { Price = decimal.MaxValue };
             foreach (var item in movieDetailFromAll)
             {
-                movie = movie.Price < item.Value.Price ? movie : item.Value;
+                if (item.Value != null) movie = movie.Price < item.Value.Price ? movie : item.Value;
             }
 
             return movie;

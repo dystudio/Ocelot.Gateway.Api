@@ -89,9 +89,9 @@
     }
   ],
   "QoSOptions": {
-    //"ExceptionsAllowedBeforeBreaking": 5,
-    //"DurationOfBreak": 10,
-    "TimeoutValue": 2000
+    "ExceptionsAllowedBeforeBreaking": 5,
+    "DurationOfBreak": 10,
+    "TimeoutValue": 1000
   },
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:2000"
