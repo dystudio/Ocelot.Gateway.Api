@@ -21,12 +21,13 @@ namespace CheapestMovies.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IConfigService, ConfigService>()
-                    .AddTransient<IHttpService, HttpService>()
-                    .AddTransient<IAggregatedMovieService, AggregatedMovieService>()
-                    .AddTransient<IMovieManager, MovieManager>();
+                    .AddSingleton<IHttpService, HttpService>()
+                    .AddScoped<IAggregatedMovieService, AggregatedMovieService>()
+                    .AddScoped<IMovieManager, MovieManager>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddHttpClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

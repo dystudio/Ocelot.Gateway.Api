@@ -14,39 +14,7 @@ namespace CheapestMovies.Api.Controllers
         public MoviesController(IMovieManager movieManager)
         {
             _movieManager = movieManager ?? throw new ArgumentNullException(nameof(movieManager));
-        }
-       
-        [HttpGet("Cheapest")]
-        public async Task<ActionResult> GetCheapestMovies()
-        {
-            try
-            {
-                var response = await _movieManager.GetCheapestMovies();
-
-                if (response != null) return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                // Yell    Log    Catch  Throw
-            }
-            return NotFound();
-        }
-
-        [HttpGet("Cheapest/{universalId}")]
-        public async Task<ActionResult> GetCheapestMovie(string universalId)
-        {
-            try
-            {
-                var response = await _movieManager.GetCheapestMovie(universalId);
-
-                if (response != null) return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                // Yell    Log    Catch  Throw
-            }
-            return NotFound();
-        }
+        }                       
 
         [HttpGet]
         public async Task<ActionResult> GetAggregatedMoviesFromAllWorlds()
@@ -73,6 +41,22 @@ namespace CheapestMovies.Api.Controllers
             try
             {
                 var response = await _movieManager.GetAggregatedMovieDetail(universalId);
+                if (response != null) return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                // Yell    Log    Catch  Throw
+            }
+            return NotFound();
+        }
+
+        [HttpGet("Cheapest/{universalId}")]
+        public async Task<ActionResult> GetCheapestMovie(string universalId)
+        {
+            try
+            {
+                var response = await _movieManager.GetCheapestMovie(universalId);
+
                 if (response != null) return Ok(response);
             }
             catch (Exception ex)

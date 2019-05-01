@@ -14,10 +14,7 @@
       },
       "UpstreamPathTemplate": "/api/cinemaworld/movies",
       "UpstreamHttpMethod": [ "Get" ],
-      "FileCacheOptions": {
-        "TtlSeconds": 15,
-        "Region": "AU"
-      },
+      "FileCacheOptions": { "TtlSeconds": 15 },
       "Key": "CinemaWorld"
     },
     {
@@ -33,11 +30,7 @@
         "x-access-token": "sjd1HfkjU83ksdsm3802k"
       },
       "UpstreamPathTemplate": "/api/filmworld/movies",
-      "FileCacheOptions": {
-        "TtlSeconds": 15,
-        "Region": "AU"
-      },
-
+      "FileCacheOptions": { "TtlSeconds": 15 },
       "Key": "FilmWorld"
     },
 
@@ -53,12 +46,9 @@
       "UpstreamHeaderTransform": {
         "x-access-token": "sjd1HfkjU83ksdsm3802k"
       },
-      "UpstreamPathTemplate": "/api/filmworld/movie/{id}",
+      "UpstreamPathTemplate": "/api/filmworld/movies/{id}",
       "UpstreamHttpMethod": [ "Get" ],
-      "FileCacheOptions": {
-        "TtlSeconds": 15,
-        "Region": "AU"
-      },
+      "FileCacheOptions": { "TtlSeconds": 15 },
       "Key": "FilmWorldMovie"
     },
     {
@@ -73,12 +63,9 @@
       "UpstreamHeaderTransform": {
         "x-access-token": "sjd1HfkjU83ksdsm3802k"
       },
-      "UpstreamPathTemplate": "/api/cinemaworld/movie/{id}",
+      "UpstreamPathTemplate": "/api/cinemaworld/movies/{id}",
       "UpstreamHttpMethod": [ "Get" ],
-      "FileCacheOptions": {
-        "TtlSeconds": 15,
-        "Region": "AU"
-      },
+      "FileCacheOptions": { "TtlSeconds": 15 },
       "Key": "CinemaWorldMovie"
     }
   ],
@@ -96,15 +83,15 @@
         "CinemaWorldMovie",
         "FilmWorldMovie"
       ],
-      "UpstreamPathTemplate": "/api/movie/{id}",
+      "UpstreamPathTemplate": "/api/movies/{id}",
       "UpstreamHttpMethod": [ "Get" ]
     }
   ],
-  //"QoSOptions": {
-  //  "ExceptionsAllowedBeforeBreaking": 5,
-  //  "DurationOfBreak": 10,
-  //  "TimeoutValue": 1000
-  //},
+  "QoSOptions": {
+    "ExceptionsAllowedBeforeBreaking": 5,
+    "DurationOfBreak": 10,
+    "TimeoutValue": 1000
+  },
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:2000"
   }

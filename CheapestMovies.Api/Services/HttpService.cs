@@ -11,7 +11,11 @@ namespace CheapestMovies.Api.Services
     }
     public class HttpService : IHttpService
     {
-        private static HttpClient _client = new HttpClient();
+        private readonly IHttpClientFactory _clientFactory;
+        public HttpService(IHttpClientFactory clientFactory)
+        {
+            _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
+        }
 
         public async Task<TResponse> GetHttpResponse<TResponse>(string url) where TResponse : class
         {
@@ -20,6 +24,8 @@ namespace CheapestMovies.Api.Services
 
             try
             {
+                var _client = _clientFactory.CreateClient();
+
                 var res = await _client.GetAsync(url)
                                               .ContinueWith(async x =>
                                               {
@@ -29,11 +35,12 @@ namespace CheapestMovies.Api.Services
 
                                                   var response = await result.Content.ReadAsStringAsync();
 
+                                                  //Precautionary measures as Ocelot messes up with JSON sometimes. 
                                                   response = response.Replace(":}", ":\"\"}").Replace(":,", ":\"\",");
 
                                                   return JsonConvert.DeserializeObject<TResponse>(response);
                                               });
-                return res.Result;
+                return await res;
             }
             catch (Exception ex)
             {
@@ -41,5 +48,6 @@ namespace CheapestMovies.Api.Services
             }
             return null;
         }
+
     }
 }

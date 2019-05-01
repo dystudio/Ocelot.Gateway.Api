@@ -17,7 +17,6 @@ namespace CheapestMovies.Api.Models
         public string ID { get; set; }
         public string Type { get; set; }
         public string Poster { get; set; }
-        public decimal Price { get; set; }
     }
     public class MoviesCollection
     {
@@ -38,5 +37,6 @@ namespace CheapestMovies.Api.Models
         public string Metascore { get; set; }
         public string Rating { get; set; }
         public string Votes { get; set; }
+        public decimal Price { get; set; }
     }
 }
