@@ -10,7 +10,7 @@ namespace CheapestMovies.Api.Managers
 {
     public interface IMovieManager
     {
-        Task<Dictionary<string, MoviesCollection>> GetAggregatedMovies();
+        Task<IEnumerable<Movie>> GetAggregatedMovies();
         Task<Dictionary<string, MovieDetail>> GetAggregatedMovieDetail(string universalId);
         Task<Movie> GetCheapestMovie(string universalId);
     }
@@ -26,9 +26,17 @@ namespace CheapestMovies.Api.Managers
             _configService = configService ?? throw new ArgumentNullException(nameof(configService));
         }
 
-        public async Task<Dictionary<string, MoviesCollection>> GetAggregatedMovies()
+        public async Task<IEnumerable<Movie>> GetAggregatedMovies()
         {
-            return await _movieService.GetAggregatedMoviesFromAllWorlds(_ocelotSettings.MoviesUrl);
+            var moviesFromAllWorlds = await _movieService.GetAggregatedMoviesFromAllWorlds(_ocelotSettings.MoviesUrl);
+
+            var allMoviesList = moviesFromAllWorlds.Values.ToList();
+            allMoviesList.RemoveAll(world => world == null);
+            var uniqueMovies = allMoviesList.SelectMany(x => x.Movies)
+                                .GroupBy(o => o.UniversalID)
+                                .Select(y => y.First());
+
+            return uniqueMovies;
         }
         public async Task<Dictionary<string, MovieDetail>> GetAggregatedMovieDetail(string universalId)
         {

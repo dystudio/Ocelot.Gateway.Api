@@ -25,7 +25,10 @@ namespace CheapestMovies.Api
                     .AddScoped<IAggregatedMovieService, AggregatedMovieService>()
                     .AddScoped<IMovieManager, MovieManager>();
 
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AngularApp", builder => builder.AllowAnyOrigin());
+            });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddHttpClient();
         }
@@ -38,6 +41,7 @@ namespace CheapestMovies.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("AngularApp");
             app.UseMvc();
         }
     }

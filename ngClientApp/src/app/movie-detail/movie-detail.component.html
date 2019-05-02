@@ -1,0 +1,9 @@
+<div *ngIf="movie">
+  <h2>{{movie.title | uppercase}}</h2>
+  <h2>{{movie.price | currency:USD}}</h2>
+
+  <div><span>id: </span>{{movie.universalID}}</div>
+  <div>
+    <button (click)="goBack()">Back to Movies</button>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="grid grid-pad">
+  <a *ngFor="let movie of movies" class="col-1-4"
+  routerLink="/movies/{{movie.universalID}}"
+  >
+    <div class="module hero">
+      <h4>{{movie.title}} {{movie.year}} {{movie.universalID}}</h4>
+      <!-- <img style="width: 50px; height: 50px;" src="{{movie.poster}}" /> -->
+    </div>
+  </a>
+</div>
+
+
+
