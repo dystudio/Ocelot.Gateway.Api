@@ -12,7 +12,7 @@ namespace CheapestMovies.Api.Managers
     {
         Task<IEnumerable<Movie>> GetAggregatedMovies();
         Task<Dictionary<string, MovieDetail>> GetAggregatedMovieDetail(string universalId);
-        Task<Movie> GetCheapestMovie(string universalId);
+        Task<MovieDetail> GetCheapestMovie(string universalId);
     }
     public class MovieManager : IMovieManager
     {
@@ -43,7 +43,7 @@ namespace CheapestMovies.Api.Managers
             return await _movieService.GetAggregatedMovieDetailFromAllWorlds(_ocelotSettings.MoviesUrl, universalId);
         }
 
-        public async Task<Movie> GetCheapestMovie(string universalId)
+        public async Task<MovieDetail> GetCheapestMovie(string universalId)
         {
             var movieDetailFromAll = await GetAggregatedMovieDetail(universalId);
 

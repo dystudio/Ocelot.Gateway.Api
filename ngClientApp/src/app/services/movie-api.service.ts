@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Movie } from '../models/movie';
+import { Movie, MovieDetail } from '../models/movie';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -20,11 +20,12 @@ export class MovieApiService {
     );    
   }
   
-  getMovie(universalID: string): Observable<Movie> {
-    const url = `${this.cheapestMovieUrl}/${universalID}`;    
-    return this.http.get<Movie>(url)
+  getMovie(universalID: string): Observable<MovieDetail> {
+    const url = `${this.cheapestMovieUrl}/${universalID}`;  
+    console.log(url);  
+    return this.http.get<MovieDetail>(url)
     .pipe(      
-      catchError(this.handleError<Movie>(`getMovie id=${universalID}`))
+      catchError(this.handleError<MovieDetail>(`getMovie id=${universalID}`))
     );
   }
 

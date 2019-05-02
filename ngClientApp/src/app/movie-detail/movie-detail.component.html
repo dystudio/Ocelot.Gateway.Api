@@ -1,9 +1,22 @@
-<div *ngIf="movie">
-  <h2>{{movie.title | uppercase}}</h2>
-  <h2>{{movie.price | currency:USD}}</h2>
+<div *ngIf="movie" >
+    <div class="module">
+        <h5>{{movie.title}} ({{movie.year}})</h5>
+        <h5>Genre: {{movie.genre}}</h5>
+        <h5>Rated: {{movie.rated}}</h5>
+        <h5>Director: {{movie.director}}</h5>
+        <p>{{movie.plot}}</p>
+        <!-- <img src="{{movie.poster}}" />     -->
+        <h2>Price: {{movie.price | currency:USD}}</h2>
 
-  <div><span>id: </span>{{movie.universalID}}</div>
-  <div>
-    <button (click)="goBack()">Back to Movies</button>
-  </div>
+    </div>
+  <br>
+    <div>
+        <button (click)="goBack()">Back to Movies</button>      
+    </div> 
 </div>
+
+
+
+  
+  
+  
