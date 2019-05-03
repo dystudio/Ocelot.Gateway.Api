@@ -1,13 +1,14 @@
 <div>
-  <a *ngFor="let movie of movies" class="col-1-4"
+  <div *ngFor="let movie of movies | async" class="col-1-4"
   routerLink="/movies/{{movie.universalID}}"
   >
-    <div class="module">
-        <h5>{{movie.title}} ({{movie.year}})</h5>
- 
+    <div class="card">
+      <div class="container">
+        <h3>{{movie.title}} ({{movie.year}})</h3>
+      </div>
         <!-- <img src="{{movie.poster}}" />          -->
     </div>
-  </a>
+  </div>
 </div>
 
 

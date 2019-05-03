@@ -16,6 +16,7 @@ export class MovieApiService {
   getMovies(): Observable<Movie[]> {
     return this.http.get<Movie[]>(this.moviesUrl)
     .pipe(
+      tap(_ => console.log('fetched movies from all worlds')),
       catchError(this.handleError<Movie[]>('getMovies', []))
     );    
   }
@@ -25,6 +26,7 @@ export class MovieApiService {
     console.log(url);  
     return this.http.get<MovieDetail>(url)
     .pipe(      
+      tap(_ => console.log('fetched cheapest movie')),
       catchError(this.handleError<MovieDetail>(`getMovie id=${universalID}`))
     );
   }

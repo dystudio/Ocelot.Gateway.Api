@@ -28,19 +28,45 @@ h4 {
 .col-1-4 {
   width: 25%;
 }
-.module {
-  padding: 5px;
-  color: #eee;
-  height: 200px;
-  width: 300px;
-  background-color: #607d8b;
-  border-radius: 2px;
+
+.card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.2s;
+  height: 250px;
+  text-align: left;
+  font-family: 'Calibri';
+  padding: 20px;
+  margin: auto;
 }
-.module:hover {
-  background-color: #eee;
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   cursor: pointer;
-  color: #607d8b;
+  background-color: #fafafa;
+}
+
+/* Add some padding inside the card container */
+.container {
+  padding: 2px 16px;
+}
+
+/* .module {
+  padding: 5px;
+  color: #eee;   
+  width: 250px;
+  height: 250px;
+  background-color: #494949;
+  border-radius: 2px;
+  font-family: 'Calibri'
+}
+
+.module:hover {
+  background-color: #696969;
+  cursor: pointer;
+  color: #eee;
 }
 .grid-pad {
   padding: 10px 0;
-}
+} */

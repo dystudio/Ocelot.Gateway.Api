@@ -4,6 +4,7 @@ import { MovieApiService } from '../services/movie-api.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
+
 @Component({
   selector: 'app-movie-detail',
   templateUrl: './movie-detail.component.html',
@@ -26,7 +27,7 @@ export class MovieDetailComponent implements OnInit {
 
   getMovie(universalID: string): void {
     this.movieService.getMovie(universalID)
-          .subscribe(moviedetail => this.movie = moviedetail);          
+          .subscribe(moviedetail => this.movie = moviedetail);  
   }
   goBack(): void {
     this.location.back();

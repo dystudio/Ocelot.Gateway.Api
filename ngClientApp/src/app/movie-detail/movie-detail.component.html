@@ -1,18 +1,22 @@
-<div *ngIf="movie" >
-    <div class="module">
-        <h5>{{movie.title}} ({{movie.year}})</h5>
-        <h5>Genre: {{movie.genre}}</h5>
-        <h5>Rated: {{movie.rated}}</h5>
-        <h5>Director: {{movie.director}}</h5>
+<div *ngIf="movie"  class="card">
+    <div class="container">
+        <h3>{{movie.title}} ({{movie.year}})</h3>
+        Genre: <b>{{movie.genre}}</b> 
+        <br>       
+        Rated: <b>{{movie.rated}}</b>
+        <br>
+        Director: <b>{{movie.director}}</b>
+        <br>
         <p>{{movie.plot}}</p>
         <!-- <img src="{{movie.poster}}" />     -->
-        <h2>Price: {{movie.price | currency:USD}}</h2>
+        <h3>Price: {{movie.price | currency:USD}}</h3>
 
-    </div>
-  <br>
-    <div>
-        <button (click)="goBack()">Back to Movies</button>      
-    </div> 
+    </div>  
+</div>
+    <br>
+    <br>
+<div>
+    <button (click)="goBack()">Back to Movies</button>      
 </div>
 
 

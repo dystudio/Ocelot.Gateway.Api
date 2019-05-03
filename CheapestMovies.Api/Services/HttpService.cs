@@ -11,7 +11,7 @@ namespace CheapestMovies.Api.Services
     }
     public class HttpService : IHttpService
     {
-        private readonly IHttpClientFactory _clientFactory;
+        private static IHttpClientFactory _clientFactory;
         public HttpService(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));

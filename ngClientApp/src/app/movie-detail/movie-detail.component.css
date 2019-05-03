@@ -1,8 +1,34 @@
-.module {
-    padding: 5px;
-    color: #eee;   
-    width: 300px;
-    background-color: #607d8b;
+/* .module {
+    padding: 50px;
+    color: #eee;  
+    width: 400px;
+    background-color: #696969;  
     border-radius: 2px;
+    text-align: left;
+    font-family: 'Calibri';
+    font-size: 1.8ex;
+    margin: auto;
+  } */
+  .card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.2s;
+    width: 400px;
+    text-align: left;
+    font-family: 'Calibri';
+    padding: 50px;
+    margin: auto;
   }
+  
+  /* On mouse-over, add a deeper shadow */
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    background-color: #fafafa;
+  }
+  
+  /* Add some padding inside the card container */
+  .container {
+    padding: 2px 16px;
+  }
+  
   
