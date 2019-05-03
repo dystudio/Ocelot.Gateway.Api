@@ -1,10 +1,13 @@
 ﻿using CheapestMovies.Api.Managers;
+using CheapestMovies.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CheapestMovies.Api.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class MoviesController : ControllerBase
@@ -16,7 +19,13 @@ namespace CheapestMovies.Api.Controllers
             _movieManager = movieManager ?? throw new ArgumentNullException(nameof(movieManager));
         }                       
 
+        /// <summary>
+        /// Retrievs distinct movies from all the movie worlds with "UniversalID" assigned to each movie
+        /// </summary>
+        /// <returns>List of distinct movies</returns>
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Movie>))]
+        [ProducesResponseType(404)]
         public async Task<ActionResult> GetAggregatedMoviesFromAllWorlds()
         {
             try
@@ -32,6 +41,13 @@ namespace CheapestMovies.Api.Controllers
             return NotFound();
         }
 
+        /// <summary>
+        /// Retrievs single movie detail from all the movie worlds for comparison
+        /// </summary>
+        /// <param name="universalId">Univeral Id of the movie e.g. 0076759</param>
+        /// <returns>movie detail from each movie world</returns>
+        [ProducesResponseType(200, Type = typeof(Dictionary<string, MovieDetail>))]
+        [ProducesResponseType(404)]
         [HttpGet("{universalId}")]
         public async Task<ActionResult> GetAggregatedMovieDetailFromAllWorlds(string universalId)
         {
@@ -50,6 +66,13 @@ namespace CheapestMovies.Api.Controllers
             return NotFound();
         }
 
+        /// <summary>
+        /// Retrievs cheapest price of a movie from all movie worlds
+        /// </summary>
+        /// <param name="universalId">Univeral Id of the movie e.g. 0076759</param>
+        /// <returns>Cheapest movie detail</returns>
+        [ProducesResponseType(200, Type = typeof(MovieDetail))]
+        [ProducesResponseType(404)]
         [HttpGet("Cheapest/{universalId}")]
         public async Task<ActionResult> GetCheapestMovie(string universalId)
         {
