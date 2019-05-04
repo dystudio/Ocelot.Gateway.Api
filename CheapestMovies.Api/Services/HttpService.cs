@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CheapestMovies.Api.Extensions;
+using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -35,8 +36,7 @@ namespace CheapestMovies.Api.Services
 
                                                   var response = await result.Content.ReadAsStringAsync();
 
-                                                  //Precautionary measures as Ocelot messes up with JSON sometimes. 
-                                                  response = response.Replace(":}", ":\"\"}").Replace(":,", ":\"\",");
+                                                  response = response.FormatJson();
 
                                                   return JsonConvert.DeserializeObject<TResponse>(response);
                                               });

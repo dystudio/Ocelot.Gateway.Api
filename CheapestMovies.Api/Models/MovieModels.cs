@@ -8,7 +8,7 @@ namespace CheapestMovies.Api.Models
         {
             get
             {
-                if (!string.IsNullOrEmpty(ID)) return ID.Substring(2);
+                if (!string.IsNullOrEmpty(ID) && ID.Length > 2) return ID.Substring(2);
                 return "0";
             }
         }
@@ -17,6 +17,7 @@ namespace CheapestMovies.Api.Models
         public string ID { get; set; }
         public string Type { get; set; }
         public string Poster { get; set; }
+        public string MovieWorld { get; set; }
     }
     public class MoviesCollection
     {
