@@ -1,14 +1,15 @@
 ﻿{
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
-    "windowsAuthentication": false, 
+    "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:2000"
     }
-  },  
-    "TicketGateway.Api": {
-      "commandName": "Project",
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
       //"launchBrowser": true,
       "launchUrl": "api/movies",
       "applicationUrl": "http://localhost:2000",
