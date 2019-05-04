@@ -6,17 +6,7 @@
     "iisExpress": {
       "applicationUrl": "http://localhost:2000"
     }
-  },
-  "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      //"launchBrowser": true,
-      "launchUrl": "api/movies",
-      "applicationUrl": "http://localhost:2000",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
+  },  
     "TicketGateway.Api": {
       "commandName": "Project",
       //"launchBrowser": true,
