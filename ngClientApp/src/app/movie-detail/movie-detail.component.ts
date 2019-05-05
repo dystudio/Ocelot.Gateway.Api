@@ -26,7 +26,7 @@ export class MovieDetailComponent implements OnInit {
   }
 
   getMovie(universalID: string): void {
-    this.movieService.getMovie(universalID)
+    this.movieService.getMovie(universalID)          
           .subscribe(moviedetail => this.movie = moviedetail);  
   }
   goBack(): void {

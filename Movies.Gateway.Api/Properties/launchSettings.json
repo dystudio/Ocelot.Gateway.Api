@@ -8,9 +8,8 @@
     }
   },
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      //"launchBrowser": true,
+    "TicketGateway.Api": {
+      "commandName": "Project",
       "launchUrl": "api/movies",
       "applicationUrl": "http://localhost:2000",
       "environmentVariables": {

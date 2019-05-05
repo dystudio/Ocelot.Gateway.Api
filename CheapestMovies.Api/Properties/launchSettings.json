@@ -8,9 +8,9 @@
       "sslPort": 0
     }
   },
-  "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
+  "profiles": {   
+    "CheapestMovies.Api": {
+      "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:3000",
       "environmentVariables": {
