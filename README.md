@@ -52,43 +52,43 @@ Build a web app to allow customers to get the cheapest price for movies from fol
 
 > **Client App:** Angular UI to show all the available movies and fetch cheapest price of a movie
 
-<img src="https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/refImg/ocelot.PNG">
+<img width="50%" height="50%" src="https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/refImg/ocelot.PNG">
 
 
 #### Design Highlights
 
 ##### ReRoutes
-    The Api Gateway handles upstream and downstream ReRoutes based on configuration. In order to add a new *movie world* simply add details to ocelot.config
+> The Api Gateway handles upstream and downstream ReRoutes based on configuration. In order to add a new *movie world* simply add details to ocelot.config
 
-<img src="https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/refImg/addmovieworld.PNG">
+<img width="50%" height="50%" src="https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/refImg/addmovieworld.png">
 
 ##### Request Aggregation
-    The Api Gateway allows to specify Aggregate ReRoutes that compose multiple normal ReRoutes and map their responses into one object. For example, in our case a single call to /api/movies/{Id} would split the calls to multiple *movie worlds* and aggregate the responses before sending it to the client.
+> The Api Gateway allows to specify Aggregate ReRoutes that compose multiple normal ReRoutes and map their responses into one object. For example, in our case a single call to /api/movies/{Id} would split the calls to multiple *movie worlds* and aggregate the responses before sending it to the client.
 
-<img src="https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/refImg/aggregates.PNG">
+<img width="50%" height="50%" src="https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/refImg/aggregates.PNG">
 
 ##### Caching and QoS
-    Add caching configuration easily to each of the microservice or at *Global* level. Quality of Service (QoS) options are available too.    
+> Add caching configuration easily to each of the microservice or at *Global* level. Quality of Service (QoS) options are available too.    
 
-<img src="https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/refImg/caching.PNG">
+<img width="50%" height="50%" src="https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/refImg/caching.PNG">
 
-<img src="https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/refImg/qos.PNG">
+<img width="50%" height="50%" src="https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/refImg/qos.PNG">
 
 
 ##### S.O.L.I.D Principles
-    The software design is lucid, extensible and maintainable by adhering to S.O.L.I.D principles.
+> The software design is lucid, extensible and maintainable by adhering to S.O.L.I.D principles.
 
 ##### Inversion of Control
-    The dependencies are inverted using IoC container.
+> The dependencies are inverted using IoC container.
 
 ##### Unit Tests
-    The xUnit (with Moq) tests are written to make the software robust. Include the test cases in CI/CD pipeline.
+> The xUnit (with Moq) tests are written to make the software robust. Include the test cases in CI/CD pipeline.
 
 
 ### Support or Contact
 Having any trouble? Please read out this [documentation](https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/README.md) or [contact](mailto:singh.rahul.net@gmail.com) to sort it out.
 
-[![HitCount](http://hits.dwyl.io/singhrahulnet/Ocelot.Gateway.ApiTODO/projects/1.svg)](http://hits.dwyl.io/singhrahulnet/Ocelot.Gateway.ApiTODO/projects/1)  ![GitHub contributors](https://img.shields.io/github/contributors/singhrahulnet/Ocelot.Gateway.ApiTODO.svg?style=plastic)
+[![HitCount](http://hits.dwyl.io/singhrahulnet/Ocelot.Gateway.Api/projects/1.svg)](http://hits.dwyl.io/singhrahulnet/Ocelot.Gateway.Api/projects/1)  ![GitHub contributors](https://img.shields.io/github/contributors/singhrahulnet/Ocelot.Gateway.Api.svg?style=plastic)
  
  
  
