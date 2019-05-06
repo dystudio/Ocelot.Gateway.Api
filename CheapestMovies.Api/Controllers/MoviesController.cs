@@ -18,7 +18,7 @@ namespace CheapestMovies.Api.Controllers
         public MoviesController(IMovieManager movieManager)
         {
             _movieManager = movieManager ?? throw new ArgumentNullException(nameof(movieManager));
-        }                       
+        }
 
         /// <summary>
         /// Retrievs distinct movies from all the movie worlds with "UniversalID" assigned to each movie
@@ -35,7 +35,7 @@ namespace CheapestMovies.Api.Controllers
 
                 if (response != null) return Ok(response);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Yell    Log    Catch  Throw
                 return StatusCode(StatusCodes.Status500InternalServerError);
@@ -61,7 +61,7 @@ namespace CheapestMovies.Api.Controllers
                 var response = await _movieManager.GetAggregatedMovieDetail(universalId);
                 if (response != null) return Ok(response);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Yell    Log    Catch  Throw
                 return StatusCode(StatusCodes.Status500InternalServerError);
@@ -85,7 +85,7 @@ namespace CheapestMovies.Api.Controllers
 
                 if (response != null) return Ok(response);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Yell    Log    Catch  Throw
                 return StatusCode(StatusCodes.Status500InternalServerError);

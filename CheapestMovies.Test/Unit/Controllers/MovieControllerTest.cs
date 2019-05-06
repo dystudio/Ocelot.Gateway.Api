@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Moq;
+﻿using CheapestMovies.Api.Controllers;
 using CheapestMovies.Api.Managers;
-using System.Threading.Tasks;
-using CheapestMovies.Test.InputData;
 using CheapestMovies.Api.Models;
-using CheapestMovies.Api.Controllers;
+using CheapestMovies.Test.InputData;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace CheapestMovies.Test.Unit.Controllers
 {

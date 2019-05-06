@@ -1,5 +1,4 @@
 ﻿using CheapestMovies.Api.Models;
-using Moq;
 using System.Collections.Generic;
 
 namespace CheapestMovies.Test.InputData

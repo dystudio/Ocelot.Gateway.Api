@@ -39,6 +39,9 @@ An Ocelot api gateway for aggregating microservices responses and an Angular 7.0
     
     dotnet test
 
+<img width="50%" height="50%" src="https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/refImg/testresult.PNG">
+
+
 
 ### Problem Statement
 

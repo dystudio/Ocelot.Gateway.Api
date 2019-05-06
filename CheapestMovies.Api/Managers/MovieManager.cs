@@ -2,9 +2,7 @@
 using CheapestMovies.Api.Models;
 using CheapestMovies.Api.Services;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CheapestMovies.Api.Managers

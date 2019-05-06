@@ -1,14 +1,13 @@
-﻿using System;
-using CheapestMovies.Api.Managers;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Moq;
-using CheapestMovies.Api.Services;
-using System.Threading.Tasks;
+﻿using CheapestMovies.Api.Managers;
 using CheapestMovies.Api.Models;
+using CheapestMovies.Api.Services;
 using CheapestMovies.Test.InputData;
+using Moq;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace CheapestMovies.Test.Unit.Managers
 {

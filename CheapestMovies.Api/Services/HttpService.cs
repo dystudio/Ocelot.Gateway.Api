@@ -42,12 +42,11 @@ namespace CheapestMovies.Api.Services
                                               });
                 return await res;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Yell    Log    Catch  Throw     
             }
             return null;
         }
-
     }
 }

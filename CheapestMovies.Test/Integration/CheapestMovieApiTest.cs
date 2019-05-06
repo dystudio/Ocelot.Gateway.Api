@@ -22,13 +22,13 @@
 //        IHttpService _httpService = null;
 //        IHttpClientFactory _httpClientFactory = null;
 //        public CheapestMovieApiTest()
-//        {            
+//        {
 //            _configService = new ConfigService(new ConfigurationBuilder()
 //                         .SetBasePath(Directory.GetCurrentDirectory())
 //                         .AddJsonFile("appsettings.json")
 //                         .Build());
 
-          
+
 
 //            _httpService = new HttpService(_httpClientFactory);
 //            _movieService = new AggregatedMovieService(_httpService);
