@@ -54,36 +54,68 @@ namespace CheapestMovies.Test.Unit.Managers
             yield return new object[] { Helper.GetMockMoviesWithPrice(0, 0), 0 };
         }
 
-        [Theory]
+        [Theory(DisplayName = "GetAggregatedMovies Returns Unique Movies")]
         [MemberData(nameof(GetInputParams))]
-        public void GetAggregatedMovies_returns_unique_movies(Dictionary<string, MoviesCollection> allMovies, int uniqueMovieCount)
+        public async Task GetAggregatedMovies_returns_unique_movies(Dictionary<string, MoviesCollection> allMovies, int uniqueMovieCount)
         {
             //Given
             mockConfigService.Setup(m => m.GetSection<OcelotGatewayApi>(It.IsAny<string>())).Returns(new OcelotGatewayApi { MoviesUrl = "api/movies" });
-            mockMovieService.Setup(m => m.GetAggregatedMoviesFromAllWorlds(It.IsAny<string>())).Returns(Task.FromResult(allMovies));
+            mockMovieService.Setup(m => m.GetAggregatedMoviesFromAllWorlds(It.IsAny<string>())).ReturnsAsync(allMovies);
             var sut = new MovieManager(mockConfigService.Object, mockMovieService.Object);
 
             //When
-            var actual = sut.GetAggregatedMovies();
+            var actual = await sut.GetAggregatedMovies();
 
             //Then
-            Assert.IsAssignableFrom<IEnumerable<Movie>>(actual.Result);
-            Assert.Equal(uniqueMovieCount, actual.Result.Count());
+            Assert.IsAssignableFrom<IEnumerable<Movie>>(actual);
+            Assert.Equal(uniqueMovieCount, actual.Count());
         }
 
-        [Theory]
+        [Theory(DisplayName = "GetCheapestMovie Returns Cheapest Movie")]
         [MemberData(nameof(GetInputParamsWithPrice))]
-        public void GetCheapestMovie_returns_cheapest_movie(Dictionary<string, MovieDetail> allMovies, decimal cheapestPrice)
+        public async Task GetCheapestMovie_returns_cheapest_movie(Dictionary<string, MovieDetail> allMovies, decimal cheapestPrice)
         {
             //Given
             mockConfigService.Setup(m => m.GetSection<OcelotGatewayApi>(It.IsAny<string>())).Returns(new OcelotGatewayApi { MoviesUrl = "api/movies" });
-            mockMovieService.Setup(m => m.GetAggregatedMovieDetailFromAllWorlds(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(allMovies));
+            mockMovieService.Setup(m => m.GetAggregatedMovieDetailFromAllWorlds(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(allMovies);
             var sut = new MovieManager(mockConfigService.Object, mockMovieService.Object);
 
             //When
-            var actual = sut.GetCheapestMovie(It.IsAny<string>());
-            Assert.IsType<MovieDetail>(actual.Result);
-            Assert.Equal(cheapestPrice, actual.Result.Price);
+            var actual = await sut.GetCheapestMovie(It.IsAny<string>());
+
+            //Then
+            Assert.IsType<MovieDetail>(actual);
+            Assert.Equal(cheapestPrice, actual.Price);
+        }
+
+        [Fact(DisplayName = "GetAggregatedMovies Handles Exception")]
+        public async Task GetAggregatedMovies_handles_exception()
+        {
+            //Given
+            mockConfigService.Setup(m => m.GetSection<OcelotGatewayApi>(It.IsAny<string>())).Returns(new OcelotGatewayApi { MoviesUrl = "api/movies" });
+            mockMovieService.Setup(m => m.GetAggregatedMoviesFromAllWorlds(It.IsAny<string>())).Throws<Exception>();
+            var sut = new MovieManager(mockConfigService.Object, mockMovieService.Object);
+
+            //When
+            var actual = await sut.GetAggregatedMovies();
+
+            //Then
+            Assert.Null(actual);
+        }
+
+        [Fact(DisplayName = "GetCheapestMovie Handles Exception")]
+        public async Task GetCheapestMovie_handles_exception()
+        {
+            //Given
+            mockConfigService.Setup(m => m.GetSection<OcelotGatewayApi>(It.IsAny<string>())).Returns(new OcelotGatewayApi { MoviesUrl = "api/movies" });
+            mockMovieService.Setup(m => m.GetAggregatedMovieDetailFromAllWorlds(It.IsAny<string>(), It.IsAny<string>())).Throws<Exception>();
+            var sut = new MovieManager(mockConfigService.Object, mockMovieService.Object);
+
+            //When
+            var actual = await sut.GetCheapestMovie(It.IsAny<string>());
+
+            //Then
+            Assert.Null(actual);
         }
     }
 }

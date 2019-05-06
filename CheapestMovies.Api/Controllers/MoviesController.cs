@@ -1,5 +1,6 @@
 ﻿using CheapestMovies.Api.Managers;
 using CheapestMovies.Api.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,7 @@ namespace CheapestMovies.Api.Controllers
             catch (Exception ex)
             {
                 // Yell    Log    Catch  Throw
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
             return NotFound();
         }
@@ -62,6 +64,7 @@ namespace CheapestMovies.Api.Controllers
             catch (Exception ex)
             {
                 // Yell    Log    Catch  Throw
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
             return NotFound();
         }
@@ -85,6 +88,7 @@ namespace CheapestMovies.Api.Controllers
             catch (Exception ex)
             {
                 // Yell    Log    Catch  Throw
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
             return NotFound();
         }

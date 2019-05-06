@@ -43,5 +43,23 @@ namespace CheapestMovies.Test.InputData
 
             return movieDetail;
         }
+        public static Dictionary<string, MovieDetail> GetMockMovieDetail(int worldCount)
+        {
+            var movieDetail = new Dictionary<string, MovieDetail>();
+            for (int i = 0; i < worldCount; i++)
+            {
+                movieDetail.Add($"{i}cw", new MovieDetail());
+            }
+            return movieDetail;
+        }
+        public static List<Movie> GetMockMoviesAggregated(int count)
+        {
+            var movies = new List<Movie>();
+            for (int i = 0; i < count; i++)
+            {
+                movies.Add(new Movie());
+            }
+            return movies;
+        }
     }
 }

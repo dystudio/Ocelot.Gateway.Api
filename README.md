@@ -13,27 +13,31 @@ An Ocelot api gateway for aggregating microservices responses and an Angular 7.0
 > Download/install [![.Net Framework](https://img.shields.io/badge/DotNet-Framework_2.1-blue.svg?style=plastic)](https://www.microsoft.com/net/download/dotnet-core/2.1) to run the project   
 
 
-> Download and install [![Node.js](https://img.shields.io/node/v/passport/latest.svg)](https://nodejs.org/en/) and Visual Studio Code
+> Download and install [![Node.js](https://img.shields.io/badge/Node.js-Latest-blue.svg?style=plastic)](https://nodejs.org/en/) and [![VSCode](https://img.shields.io/badge/VSCode-Latest-blue.svg?style=plastic)](https://code.visualstudio.com/)
 
 > Download/clone the repository.
 
 
 #### Running the Application
-> Start the Gateway first. Open *Movies.Gateway.Api* folder in VS code terminal and run
+> Start the Gateway first. Open *Movies.Gateway.Api* folder in VS Code terminal and run -
 
     dotnet run
 
-> Start the *Backend-For-Frontend* api. Open *CheapestMovies.Api* folder in VS code terminal and run
+> Start the *Backend-For-Frontend* api. Open *CheapestMovies.Api* folder in VS Code terminal and run -
 
     dotnet run
 
-> Open http://localhost:3000 in browser and you should see swagger site with following end points
+> Open http://localhost:3000 in browser and you should see swagger site with following end points -
 
 <img src="https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/refImg/swagger.PNG">
 
-> Start the Angular UI. Open *ngClientApp* folder in VS code terminal and run
+> Start the Angular UI. Open *ngClientApp* folder in VS Code terminal and run following command. The UI should be available at http://localhost:4200.
     
     ng serve -o
+
+> To run the unit tests, open *CheapestMovies.Test* folder in VS Code terminal and run following command.
+    
+    dotnet test
 
 
 ### Problem Statement
@@ -46,7 +50,7 @@ Build a web app to allow customers to get the cheapest price for movies from fol
 
 
 ### Solution
-> **Api gateway pattern:** is implemented using Ocelot. The gateway provides single entry-point for group of microservices i.e. different *movie worlds* in our case. 
+> **Api Gateway Pattern:** is implemented using Ocelot. The gateway provides single entry-point for group of microservices i.e. different *movie worlds* in our case. Ideally this api should be in private network.
 
 > **.NET Core Api:** a public REST api on top of the gateway
 

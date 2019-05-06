@@ -7,7 +7,7 @@ namespace CheapestMovies.Api.Services
     {
         TResult GetSection<TResult>(string sectionName) where TResult : class;
     }
-    class ConfigService : IConfigService
+    public class ConfigService : IConfigService
     {
         private readonly IConfiguration _configuration;
 

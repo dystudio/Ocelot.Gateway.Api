@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CheapestMovies.Api.Services
 {
     public interface IAggregatedMovieService
-    {      
+    {
         Task<Dictionary<string, MoviesCollection>> GetAggregatedMoviesFromAllWorlds(string url);
         Task<Dictionary<string, MovieDetail>> GetAggregatedMovieDetailFromAllWorlds(string url, string universalId);
     }
@@ -18,13 +18,21 @@ namespace CheapestMovies.Api.Services
         {
             _httpService = httpService ?? throw new ArgumentNullException(nameof(httpService));
         }
-     
+
         public async Task<Dictionary<string, MoviesCollection>> GetAggregatedMoviesFromAllWorlds(string url)
         {
             //Always good to validate the input parameter in public methods
             if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url));
 
-            var moviesFromAll = await _httpService.GetHttpResponse<Dictionary<string, MoviesCollection>>($"{url}");
+            Dictionary<string, MoviesCollection> moviesFromAll = null;
+            try
+            {
+                moviesFromAll = await _httpService.GetHttpResponse<Dictionary<string, MoviesCollection>>($"{url}");
+            }
+            catch (Exception)
+            {
+                // Yell    Log    Catch  Throw     
+            }
 
             return moviesFromAll;
         }
@@ -34,7 +42,15 @@ namespace CheapestMovies.Api.Services
             //Always good to validate the input parameter in public methods
             if (string.IsNullOrEmpty(url) || string.IsNullOrEmpty(universalId)) throw new ArgumentNullException(nameof(universalId));
 
-            var movieDetailFromAll = await _httpService.GetHttpResponse<Dictionary<string, MovieDetail>>($"{url}/{universalId}");
+            Dictionary<string, MovieDetail> movieDetailFromAll = null;
+            try
+            {
+                movieDetailFromAll = await _httpService.GetHttpResponse<Dictionary<string, MovieDetail>>($"{url}/{universalId}");
+            }
+            catch (Exception)
+            {
+                // Yell    Log    Catch  Throw     
+            }
 
             return movieDetailFromAll;
         }
