@@ -10,6 +10,12 @@ namespace CheapestMovies.Api.Services
         Task<Dictionary<string, MoviesCollection>> GetAggregatedMoviesFromAllWorlds(string url);
         Task<Dictionary<string, MovieDetail>> GetAggregatedMovieDetailFromAllWorlds(string url, string universalId);
     }
+
+    
+    /// <summary>
+    /// The class sits above the plain http response and future data filtering 
+    /// should be implemented in this class if needed.
+    /// </summary>
     public class AggregatedMovieService : IAggregatedMovieService
     {
         private IHttpService _httpService;
