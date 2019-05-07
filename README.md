@@ -31,6 +31,11 @@ An Ocelot api gateway for aggregating microservices responses and an Angular 7.0
 
 <img src="https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/refImg/swagger.PNG">
 
+> Visual Studio 2017 users can open the solution file and set it for 'Multiple startup projects' in following order -
+
+<img width="50%" height="50%" src="https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/refImg/vs.PNG">
+
+
 > Start the Angular UI. Open *ngClientApp* folder in VS Code terminal and run following command. The UI should be available at http://localhost:4200.
     
     ng serve -o
@@ -40,7 +45,6 @@ An Ocelot api gateway for aggregating microservices responses and an Angular 7.0
     dotnet test
 
 <img width="50%" height="50%" src="https://github.com/singhrahulnet/Ocelot.Gateway.Api/blob/master/refImg/testresult.PNG">
-
 
 
 ### Problem Statement
